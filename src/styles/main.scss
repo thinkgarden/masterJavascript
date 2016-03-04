@@ -1,0 +1,52 @@
+@import 'common';
+
+@import 'action';
+
+header {
+  height: 5em;
+  background-color: $primary-color;
+}
+
+.haoduo {
+  background-color: $primary-color;
+  h2 {
+    margin-top: 2em;
+    color: $primary-color-text;
+    text-align: center;
+    font-weight: normal;
+  }
+  p {
+    text-align: center;
+    color:  $primary-color-text;
+    opacity: .8;
+  }
+  a.visit-haoduo {
+    display: block;
+    width: 6em;
+    text-align: center;
+    padding: .8em;
+    margin: 1.5em auto;
+    font-size: .8em;
+    color: $primary-color-text;
+    background-color: $primary-color-dark;
+    border-radius: 1em;
+  }
+}
+.books {
+  .book {
+    @media (min-width: 600px) {
+      width: 33.3333%;
+      float: left;
+    }
+    padding: 2em;
+    .cover {
+      display: block;
+      margin: 0 auto;
+      width: 70%;
+    }
+  }
+}
+footer {
+  height: 5em;
+  background-color: #212121;
+}

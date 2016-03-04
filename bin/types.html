@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Types test</title>
+</head>
+<body>
+	
+	<script src="js/ADS.js"></script>
+	<script src="js/myLogger.js"></script>
+	<script>
+		// for(i in document){ADS.log.write(i);}
+
+		function replacer(match, p1, p2, p3, offset, string) {
+		  // p1 is nondigits, p2 digits, and p3 non-alphanumerics
+		  console.log(match+"-"+offset+"-"+string);
+		  return [p1, p2, p3].join(' - ');
+		}
+		var newString = 'abc-xyz-abc'.replace(/-(\w)/g, function(strMatch,p1,offset,string){
+			console.log(strMatch+" "+" "+p1+" "+offset);
+			return p1.toUpperCase();
+		});
+		console.log(newString);
+		
+	</script>
+</body>
+</html>

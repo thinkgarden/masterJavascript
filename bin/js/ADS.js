@@ -27,13 +27,7 @@ if(!String.trim){
 	    DOCUMENT_FRAGMENT_NODE      : 11,
 	    NOTATION_NODE               : 12
 	};
-	function camelize(s) {
-	    return s.replace(/-(\w)/g, function (strMatch, p1){
-	        return p1.toUpperCase();
-	    });
-	}
-	window['ADS']['camelize'] = camelize;
-
+	
 	/**
 	 * Walk the nodes in the DOM tree without maintaining parent/child relationships.
 	 */

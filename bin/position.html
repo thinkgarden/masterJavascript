@@ -1,0 +1,40 @@
+<html>
+<head>
+<style type="text/css">
+body{margin:0px;padding:0px;line-height:100%;}
+div
+{
+  background-color:rgb(159, 206, 159);
+  width:95px;
+  height:95px;
+  margin: 0px 0px 1px 1px;
+  padding:0px;
+  /*display:inline-block;*/
+  letter-spacing:1px;
+  
+  /* only for ie*/
+  *display:inline;
+  *zoom:1;
+  
+  border:1px solid #ffffff;
+  border-radius:5px;
+  -moz-border-radius:5px; /* Old Firefox */
+  opacity:1;
+  text-align:center;
+  color:white;
+}
+#main{width:400px;height:300px;}
+</style>
+</head>
+
+<body>
+<div id="main" style="position: relative; margin: 50px; padding: 80px; ">
+<div id="div1" style="position: absolute; left: 83px; top: 0px; background-color: rgb(199, 219, 50); ">div1 absolute</div>
+<div id="div2" style="position: absolute;  left: 0px; top: 90px; background-color: rgb(1, 214, 35);z-index:10;">div2 absolute z-index<br/>:10</div>
+<div id="div3" style="position: relative;  left: 0px; top: 0px; background-color: rgb(23, 178, 238);z-index:11;">div3 relative z-index:11</div>
+<div id="div4" style="position: relative;  left: 0px; top: 0px; background-color: rgb(23, 178, 238); z-index:0; ">div4 relative z-index:0</div>
+<div id="div5" style="position: fixed;  left: 10px; top: 10px; background-color: rgb(229, 122, 238); ">div5 fixed</div>
+</div>
+
+</body>
+</html>

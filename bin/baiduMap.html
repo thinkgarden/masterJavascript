@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>百度地图测试</title>
+	<script type="text/javascript" src="js/baidu_map_local.js"></script>
+	<script>
+		getLocation();
+		
+		function getLocation(){
+			if (navigator.geolocation) {
+		        navigator.geolocation.getCurrentPosition(onSuccess);
+		    } else {
+		        console.log("Geolocation is not supported by this browser.");
+		    }
+		}
+
+		function onSuccess(position){
+			//经度 
+		    var longitude = position.coords.longitude;
+			//纬度
+		    var latitude = position.coords.latitude;
+		    console.log("经度:"+longitude+";纬度:"+latitude);
+		    baiduload();
+		}
+
+		function baidumap(){
+		    if(document.getElementById('baidumap').style.display=="none"){
+		        document.getElementById('baidumap').style.display="";
+		        document.getElementById('baidu_search').style.display="";
+		        document.getElementById('baidumap_onoff').innerHTML="定位·收起";
+		    }else{
+		        document.getElementById('baidumap').style.display="none";
+		        document.getElementById('baidu_search').style.display="none";
+		        document.getElementById('baidumap_onoff').innerHTML="定位·展开";
+		    }
+		    console.log("aa");
+		    baiduload();
+		}
+
+		function baiduload (x,y) {
+	        map = new BMap.Map("baidumap");
+	        map.clearOverlays();
+	        map.centerAndZoom(new BMap.Point(x, y),16);
+	        var marker1 = new BMap.Marker(new BMap.Point(x,y));  // 创建标注
+	        map.addOverlay(marker1);
+	        map.addControl(new BMap.NavigationControl());
+	        map.addEventListener("click",function(e){
+	            // alert(e.point.lng + "," + e.point.lat);
+	            map.clearOverlays(); 
+	            var marker1 = new BMap.Marker(new BMap.Point(e.point.lng,e.point.lat));  // 创建标注
+	            map.addOverlay(marker1);              // 将标注添加到地图中
+	            // document.getElementById('baidu_x').value=e.point.lng;
+	            // document.getElementById('baidu_y').value=e.point.lat;
+	            // alert("aaa");
+	        });
+		}
+
+	</script>
+</head>
+<body>
+	<input id="baidu_x" type="hidden" placeholder="经度(必填)" readonly>
+    <input id="baidu_y" type="hidden" placeholder="纬度(必填)" readonly>
+	<div style="margin:10px;" class="input_time_div">
+        <div id="baidumap_onoff" class="btn person_btn" onclick="baidumap()" style="margin-top:10px;margin-bottom:10px;background:#ff9800;color:white;text-shadow:0px 1px 2px rgba(0,0,0,0.3);border-radius:2px;">定位·收起</div><br/>
+        <input id="baidu_search" class="form-control" style="width:100%;display:;" placeholder="百度地图地址">
+	</div>
+	<div id="baidumap" style="width:100%;height:50%;overflow: hidden;display:;margin:0px;"></div>
+</body>
+</html>

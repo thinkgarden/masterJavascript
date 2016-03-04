@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js函数</title>
+</head>
+<body>
+	<h3>js函数测试</h3>
+
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/testPrototype.js"></script>
+	<script>
+	
+
+	var assert = function(value, msg) {
+		if ( !value )
+		throw(msg || (value + " does not equal true"));
+	};
+
+	var assertEqual = function(val1, val2, msg){
+		if(val1 !== val2){
+			throw(msg|| (val1 + " does not equal " + val2));
+		}
+	}
+
+	var a = function(){ var name="aa"; return name};
+
+	// var b = function(){ 
+
+	// 	var obj={
+	// 		name:"slowfish",
+	// 		show:function(){return this.name},
+	// 		set:function(name){this.name=name}
+	// 	}; 
+	// 	return obj
+	// }();
+
+	var b = function(){ 
+		var obj={
+			name:"slowfish",
+			show:function(){return this.name},
+			set:function(name){this.name=name}
+		}; 
+		return obj
+	}();
+
+	(function(){ 
+		var _userId = 23492;
+		var _typeId = "item"
+		var export1 ={};
+		var name="cc";
+
+		function converter(userId) {
+			return +userId;
+		}
+		export1.getUserId = function(){
+			return converter(_userId);
+		}
+		export1.getTypeId = function(){
+			return _typeId;
+		}
+		window.export1 = export1;
+	}());
+	
+	</script>
+</body>
+</html>
