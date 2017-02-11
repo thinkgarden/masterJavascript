@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drag</title>
+  <style>
+    html,body {
+      overflow: hidden;
+    }
+    body,h2,p {margin: 0;padding:0;}
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font: 12px/2 Arial;
+    }
+    #dragPanel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 150px;
+      border: 2px solid #ccc;
+      margin: -75px 0 0 -150px;
+    }
+    #dragPanel h2 {
+      height: 25px;
+      border-bottom: 2px solid #ccc;
+      text-align: right;
+      padding: 0 10px;
+      background-color: #333;
+      margin: 0;
+      cursor: move;
+    }
+
+    #dragPanel h2 a {
+      color: #fff;
+      font: 12px/25px Arial;
+      text-decoration: none;
+      outline: none;
+    }
+    #dragPanel p {
+      padding: 0 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel" id="dragPanel">
+    <h2><a href="javascript:;">点击回放拖动轨迹</a></h2>
+    <p><strong>Drag:</strong><span>false</span></p>
+    <p><strong>offsetTop:</strong><span>255</span></p>
+    <p><strong>offsetLeft:</strong><span>307</span></p>
+  </div>
+
+  <script>
+    window.onload = function(){
+      var $panel = document.querySelector('#dragPanel');
+      var $panelTitle = document.querySelector('#dragPanel h2');
+      var disX = disY = 0;
+      var bDrag = false;
+      $panelTitle.onmousedown = function(e){
+        bDrag = true;
+        disX = e.clientX - $panel.offsetLeft;
+        disY = e.clientY - $panel.offsetTop;
+        console.log(disX);
+      }
+
+      document.onmousemove = function(e) {
+        if(!bDrag) return;
+        var left = e.clientX - disX;
+        var top = e.clientY - disY;
+
+        var maxLeft = document.documentElement.clientWidth - $panel.offsetWidth;
+        var maxTop = document.documentElement.clientHeight - $panel.offsetHeight;
+
+        left = left < 0 ? 0 : left;
+        left = left > maxLeft ? maxLeft : left;
+
+        top = top < 0 ? 0 : top;
+        top = top > maxTop ? maxTop : top;
+
+        $panel.style.marginLeft = $panel.style.marginRight = 0;
+        $panel.style.left = left + 'px';
+        $panel.style.top = top + 'px';
+      }
+
+      document.onmouseup = window.onblur = $panelTitle.onlosecapture = function (){
+        bDrag = false;
+      };
+
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>

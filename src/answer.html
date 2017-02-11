@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ruff 面试</title>
+  <style>
+    html,body {
+      height: 100%;
+    }
+    body{
+      margin: 0;
+      font-size: 14px;
+      font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Hiragino Sans GB,Microsoft Yahei,Microsoft Jhenghei,sans-serif;
+      line-height: 1.5;
+    }
+    .container {
+      width: 90%;
+      max-width: 780px;
+      margin: 80px auto;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h3>Ruff 面试</h3>
+  <pre>
+  1. 因为i是唯一的变量，setTimeout是异步执行，每次访问时i都是最终的值9，可以使用闭包来解决
+  function print() {
+    for (var i=0; i<10; i++) {
+      (function(i){
+        setTimeout(function() {
+          console.log(i)
+      }, 0)})(i)
+    }
+  }
+
+  2、箭头符号改变了当前函数的执行作用域.改成function就可以了
+  let printArgs = function () {
+    for (let i = 0; i < arguments.length; i++){
+        console.log(arguments[i]);
+    }
+  };
+  printArgs(1, 2, 3)  // will throw error
+
+
+  4、括号匹配
+  function isMatchingPair(str) {
+    var stack = [],
+      map = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
+      };
+    for (var i = 0; i < str.length; i++) {
+      if (str[i] === '(' || str[i] === '[' || str[i] === '{') {
+        stack.push(str[i]);
+      } else {
+        var last = stack.pop();
+
+        if (str[i] !== map[last]) {
+          return false;
+        }
+      }
+    }
+
+    if (stack.length !== 0) {
+      return false;
+    }
+  }
+
+
+  5、asyncOneByOne(答案是错的)
+  function asyncOneByOne (arr) {
+    var promise = Promise.resolve();
+    return promise.then(() => {
+      arr[0]();
+    }).then(()=>{
+      arr[1]();
+    })
+  }
+  function one(callback) {
+      setTimeout(function(){
+          console.log('first');
+          // callback();
+  }, 200); }
+  function two(callback) {
+      setTimeout(function(){
+          console.log('second');
+          // callback();
+      }, 0);
+  }
+  // asyncOneByOne([one, two])
+  print();
+
+</pre>
+</div>
+
+
+
+  <script>
+  //1、 因为i是唯一的变量，setTimeout是异步执行，每次访问时i都是最终的值9，所以可以使用闭包来解决
+  function print() {
+    for (var i=0; i<10; i++) {
+      (function(i){
+        setTimeout(function() {
+          console.log(i)
+      }, 0)})(i)
+    }
+  }
+  // print();
+
+  //2、箭头符号改变了当前函数的执行作用域.改成function就可以了
+  let printArgs = function () {
+    for (let i = 0; i < arguments.length; i++){
+        console.log(arguments[i]);
+    }
+  };
+  //printArgs(1, 2, 3)  // will throw error
+
+  //3 字符串比较
+  let compareStrCharByChar = (str1, str2) => {
+    let len1 = str1.length, len2 = str2.length;
+    if(len1 < len2) {
+      return -1
+    }else if(len1 > len2) {
+      return 1
+    } else {
+
+    }
+  }
+
+  let compareStr = (strA, strB) => {
+    return strA > strB ? 1 : strA < strB ? -1 : 0
+  }
+  console.log(compareStr('bc', 'abb'));
+  //4、
+   function isMatchingPair(str) {
+    var stack = [],
+      map = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
+      };
+    for (var i = 0; i < str.length; i++) {
+      if (str[i] === '(' || str[i] === '[' || str[i] === '{') {
+        stack.push(str[i]);
+      } else {
+        var last = stack.pop();
+
+        if (str[i] !== map[last]) {
+          return false;
+        }
+      }
+    }
+
+    if (stack.length !== 0) {
+      return false;
+    }
+
+    return true;
+  }
+  //console.log(isMatchingPair('(str[x)xx]'));
+
+  //请实现一个方法，它接受一个异步数组。运性数组里的方法时，后一个方法必须在前一个方法调用完成后被调用
+  //Please give a function which takes an array of asynchronous and run the functions in the array, each one running once the previous function has completed.
+
+    // function asyncOneByOne (arr) {
+    //   var promise = Promise.resolve();
+    //   return promise.then(() => {
+    //     return new Promise((resolve, reject) =>{
+    //       arr[0](resolve);
+    //     })
+    //   }).then(()=>{
+    //     return new Promise((resolve, reject) =>{
+    //       arr[1](resolve);
+    //     })
+    //   })
+    // }
+
+    function asyncOneByOne (arr) {
+      let tempFunc = [() => {}];
+
+      for(let i = arr.length - 1; i >= 0; i--) {
+        let thisFunc = arr[i];
+        let tempLen = tempFunc.length;
+
+        tempFunc[tempLen] = () => {
+          return thisFunc(tempFunc[tempLen - 1]);
+        };
+      }
+      tempFunc[tempFunc.length-1]();
+    }
+    //相当于转换成three(two(one()))
+
+    function one(callback) {
+      setTimeout(function(){
+            console.log('first');
+            callback();
+      }, 200);
+    }
+
+    function two(callback) {
+        setTimeout(function(){
+            console.log('second');
+            callback();
+        }, 0);
+    }
+
+    function three(callback) {
+        setTimeout(function(){
+            console.log('three');
+            callback();
+        }, 400);
+    }
+
+    // asyncOneByOne([one, two]);
+    //
+  var data = {
+    rows: [
+      ["Lisa", 16, "Female", "2000-12-01"],
+      ["Bob", 22, "Male", "1996-01-21"]
+    ],
+    metaData: [
+      { name: "name", note: '' },
+      { name: "age", note: '' },
+      { name: "gender", note: '' },
+      { name: "birthday", note: '' }
+    ]
+  };
+  var result = data.rows.reduce(function(prev1, cur1) {
+  prev1.push(data.metaData.reduce(function(prev, cur, index) {
+    prev[cur.name] = cur1[index];
+    return prev;
+    }, {}));
+    return prev1;
+  }, []);
+  console.log(result);
+  </script>
+</body>
+</html>
